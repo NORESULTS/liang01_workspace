@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- src/main/java中的源代码包，打包后只是作为jar包中源代码的文件夹，不一定非得和gav一致，只是说保持一致比较和谐-->
+    <groupId>com.liang01</groupId>
+    <artifactId>liang01-parent_project</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <description>this is liang01-parent</description>
+
+
+    <properties>
+        <java.version>1.8</java.version>
+        <springboot.version>2.2.0.RELEASE</springboot.version>
+        <lombok.version>1.18.20</lombok.version>
+        <fastjson.version>1.2.60</fastjson.version>
+    </properties>
+
+    <dependencies>
+        <!-- 这里声明的依赖，用于指定版本，并且子项目已经自动依赖，不必再次声明。 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${springboot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${springboot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>${springboot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${springboot.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <!-- management中的依赖，只是用于声明好版本，子项目要使用，必须再次声明。-->
+        <dependencies>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <!--先打包父项目，然后依次打印下方的子项目-->
+        <module>liang01-son01_workspace</module>
+        <module>liang01-son02_workspace</module>
+    </modules>
+
+    <!-- maven插件（不写也可以） 有此pom后可以通过配置 Maven命spring-boot:run令来启动项目 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!--<build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>3.1</version>
+            </plugin>
+        </plugins>
+    </build>-->
+
+
+
+    <profiles>
+        <!--声明了一些不同环境下的配置-->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <customField>111</customField>
+                <profiles.active>dev</profiles.active>
+                <!--这里用fastjson测试，profile激活，那么fastjosn在重新Maven compile时就会报错找不到对应版本包-->
+                <fastjson.version>xxxx</fastjson.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>pro</id>
+            <activation>
+                <!--为true为激活，maven 编译时自动加载对应的配置-->
+                <activeByDefault>true</activeByDefault>
+                <!--
+                mave目录下的settings.xml也可以添加下面的代码来指定激活哪个profile。
+                <activeProfiles>
+                    <activeProfile>pro</activeProfile>
+                </activeProfiles>
+                 setting.xml在当前系统用户的.m2文件夹有（如没有可手动拷贝过去也会生效），针对的当前用户的profile配置
+                 maven的安装目录下“conf/settings.xml”，针对的是全局的profile配置
+                 profile也可以定义在setting.xml文件中，但是这种方式个人感觉并不实用的，不推荐。
+                -->
+            </activation>
+            <properties>
+                <customField>222</customField>
+                <profiles.active>pro</profiles.active>
+            </properties>
+        </profile>
+
+    </profiles>
+</project>
