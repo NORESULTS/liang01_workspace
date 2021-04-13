@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @RestController :相当于@ResponseBody ＋ @Controller合在一起的作用。 方法无法返回jsp页面，或者html，配置的视图解析器 InternalResourceViewResolver不起作用，返回的内容就是Return 里的内容。
  */
 @RestController
+@RequestMapping("c2/c22")
 public class Hello2Controller {
 
     @RequestMapping(value = "rest/s21", method = RequestMethod.GET)

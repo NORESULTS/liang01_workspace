@@ -13,10 +13,18 @@
 
 
     <properties>
+        <!--构建项目时的默认编码，避免项目乱码-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--编译java代码使用的jdk版本-->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <!--java项目运行时的jdk环境版本-->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <!--自定义变量-->
         <java.version>1.8</java.version>
         <springboot.version>2.2.0.RELEASE</springboot.version>
         <lombok.version>1.18.20</lombok.version>
         <fastjson.version>1.2.60</fastjson.version>
+        <junit.version>4.11</junit.version>
     </properties>
 
     <dependencies>
@@ -42,7 +50,11 @@
             <version>${springboot.version}</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -70,15 +82,38 @@
         <module>liang01-son02_workspace</module>
     </modules>
 
-    <!-- maven插件（不写也可以） 有此pom后可以通过配置 Maven命spring-boot:run令来启动项目 -->
     <build>
+        <resources>
+            <resource>
+                <!--目标文件所在的目录-->
+                <directory>src/main/java</directory>
+                <!--指定哪些非java源文件，希望被扫描到target目录中-->
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.txt</include>
+                </includes>
+                <!-- filtering 选项false，不启用过滤器。 *.property已经起到了过滤的作用 -->
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <!--<plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>-->
+
+    </build>
+    <!-- maven插件（不写也可以） 有此pom后可以通过配置 Maven命spring-boot:run令来启动项目 -->
+    <!--<build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 
     <!--<build>
         <plugins>

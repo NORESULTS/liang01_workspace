@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @create 2021-04-12 12:37
  */
 @Controller
+@RequestMapping("c1/c11")
 public class Hello1Controller {
 
 //    @Autowired
